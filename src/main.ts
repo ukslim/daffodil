@@ -2,13 +2,21 @@ import { initAnimatedView } from "./animated";
 import { initEditorView } from "./editor";
 import "./style.css";
 
+let cleanup: (() => void) | undefined;
+
 // Handle routing
 function handleRoute() {
+  // Clean up previous view if it exists
+  if (cleanup) {
+    cleanup();
+    cleanup = undefined;
+  }
+
   const path = window.location.pathname;
   if (path === "/daffodil/animated") {
-    initAnimatedView();
+    cleanup = initAnimatedView();
   } else {
-    initEditorView();
+    cleanup = initEditorView();
   }
 }
 

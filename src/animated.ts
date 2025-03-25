@@ -42,7 +42,7 @@ function calculateAnimatedValue(
   return shouldRound ? Math.round(value) : value;
 }
 
-export function initAnimatedView() {
+export function initAnimatedView(): () => void {
   document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
     <div class="page-header">
       <a href="/daffodil/" class="view-link">Back to editor</a>
@@ -134,12 +134,19 @@ export function initAnimatedView() {
 
   // Animation loop
   const startTime = performance.now();
+  let animationFrameId: number;
+
   function animate() {
     const currentTime = (performance.now() - startTime) / 1000; // Convert to seconds
     updateDaffodil(currentTime);
-    requestAnimationFrame(animate);
+    animationFrameId = requestAnimationFrame(animate);
   }
 
   // Start animation
   animate();
+
+  // Return cleanup function
+  return () => {
+    cancelAnimationFrame(animationFrameId);
+  };
 }

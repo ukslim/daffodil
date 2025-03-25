@@ -40,7 +40,7 @@ function setSliderValue(id: string, value: number) {
   }
 }
 
-export function initEditorView() {
+export function initEditorView(): () => void {
   document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
     <div class="page-header">
       <h1>Daffodil editor</h1>
@@ -199,16 +199,32 @@ export function initEditorView() {
     slider.addEventListener("input", updateDaffodil);
   });
 
+  // Save button handlers
+  const saveButton = document.getElementById("saveButton");
+  const saveSvgButton = document.getElementById("saveSvgButton");
+  if (saveButton) {
+    saveButton.addEventListener("click", () => saveSvgAsPng(container));
+  }
+  if (saveSvgButton) {
+    saveSvgButton.addEventListener("click", () => saveSvg(container));
+  }
+
   // Initial render
   updateDaffodil();
 
-  // Save button handlers
-  document
-    .getElementById("saveButton")
-    ?.addEventListener("click", () => saveSvgAsPng(container));
-  document
-    .getElementById("saveSvgButton")
-    ?.addEventListener("click", () => saveSvg(container));
+  // Return cleanup function
+  return () => {
+    // Remove all event listeners
+    sliders.forEach((slider) => {
+      slider.removeEventListener("input", updateDaffodil);
+    });
+    if (saveButton) {
+      saveButton.removeEventListener("click", () => saveSvgAsPng(container));
+    }
+    if (saveSvgButton) {
+      saveSvgButton.removeEventListener("click", () => saveSvg(container));
+    }
+  };
 }
 
 function saveSvgAsPng(container: HTMLElement) {
