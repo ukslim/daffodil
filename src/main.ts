@@ -42,6 +42,10 @@ function setSliderValue(id: string, value: number) {
 }
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
+  <div class="page-header">
+    <h1>Daffodil editor</h1>
+    <div class="description">I made this to fine-tune an image which I would later turn into a lino print with some hand-carved imprecision.</div>
+  </div>
   <div class="container">
     <div class="controls">
       <h3>First Petals</h3>
@@ -90,7 +94,10 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
         <input type="range" id="hexagonRadius" min="10" max="60" step="1" value="30">
       </div>
 
-      <button id="saveButton" class="save-button">Save as PNG</button>
+      <div class="button-group">
+        <button id="saveButton" class="save-button">Save as PNG</button>
+        <button id="saveSvgButton" class="save-button">Save as SVG</button>
+      </div>
     </div>
     <div id="daffodilContainer"></div>
   </div>
@@ -129,8 +136,24 @@ function saveSvgAsPng() {
   img.src = url;
 }
 
-// Add button event listener
+function saveSvg() {
+  const svg = container.querySelector("svg");
+  if (!svg) return;
+
+  const svgData = new XMLSerializer().serializeToString(svg);
+  const svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+  const url = URL.createObjectURL(svgBlob);
+
+  const link = document.createElement("a");
+  link.download = "daffodil.svg";
+  link.href = url;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+// Add button event listeners
 document.getElementById("saveButton")?.addEventListener("click", saveSvgAsPng);
+document.getElementById("saveSvgButton")?.addEventListener("click", saveSvg);
 
 function updateDaffodil() {
   const params: DaffodilParams = {
