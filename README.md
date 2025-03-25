@@ -17,4 +17,6 @@ npm install
 npm run dev
 ```
 
-    
+# On GitHub Pages
+
+You can view the live version at: https://ukslim.github.io/daffodil/
