@@ -21,12 +21,26 @@ const ranges = {
 };
 
 // Generate frequencies for each parameter
+// The goal here is to have a range of frequencies far enough apart that they
+// fall in and out of phase.
 const frequencies = Array.from({ length: NUM_PARAMS }, (_, i) => {
   const t = i / (NUM_PARAMS - 1);
   return SLOWEST_FREQ + (FASTEST_FREQ - SLOWEST_FREQ) * t;
 });
 
-frequencies[7] = 0.001; // Change numScallops much less often
+frequencies[7] = 0.001; // Change numScallops much less often because it's jarring
+
+function calculateAnimatedValue(
+  min: number,
+  max: number,
+  frequency: number,
+  time: number,
+  shouldRound: boolean = false
+): number {
+  const value =
+    min + (max - min) * (0.5 + 0.5 * Math.sin(2 * Math.PI * frequency * time));
+  return shouldRound ? Math.round(value) : value;
+}
 
 export function initAnimatedView() {
   document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
@@ -43,55 +57,75 @@ export function initAnimatedView() {
   function updateDaffodil(time: number) {
     const params: DaffodilParams = {
       firstPetals: {
-        eccentricity:
-          ranges.firstEcc.min +
-          (ranges.firstEcc.max - ranges.firstEcc.min) *
-            (0.5 + 0.5 * Math.sin(2 * Math.PI * frequencies[0] * time)),
-        width: Math.round(
-          ranges.firstWidth.min +
-            (ranges.firstWidth.max - ranges.firstWidth.min) *
-              (0.5 + 0.5 * Math.sin(2 * Math.PI * frequencies[1] * time))
+        eccentricity: calculateAnimatedValue(
+          ranges.firstEcc.min,
+          ranges.firstEcc.max,
+          frequencies[0],
+          time
         ),
-        height: Math.round(
-          ranges.firstHeight.min +
-            (ranges.firstHeight.max - ranges.firstHeight.min) *
-              (0.5 + 0.5 * Math.sin(2 * Math.PI * frequencies[2] * time))
+        width: calculateAnimatedValue(
+          ranges.firstWidth.min,
+          ranges.firstWidth.max,
+          frequencies[1],
+          time,
+          true
+        ),
+        height: calculateAnimatedValue(
+          ranges.firstHeight.min,
+          ranges.firstHeight.max,
+          frequencies[2],
+          time,
+          true
         ),
       },
       secondPetals: {
-        eccentricity:
-          ranges.secondEcc.min +
-          (ranges.secondEcc.max - ranges.secondEcc.min) *
-            (0.5 + 0.5 * Math.sin(2 * Math.PI * frequencies[3] * time)),
-        width: Math.round(
-          ranges.secondWidth.min +
-            (ranges.secondWidth.max - ranges.secondWidth.min) *
-              (0.5 + 0.5 * Math.sin(2 * Math.PI * frequencies[4] * time))
+        eccentricity: calculateAnimatedValue(
+          ranges.secondEcc.min,
+          ranges.secondEcc.max,
+          frequencies[3],
+          time
         ),
-        height: Math.round(
-          ranges.secondHeight.min +
-            (ranges.secondHeight.max - ranges.secondHeight.min) *
-              (0.5 + 0.5 * Math.sin(2 * Math.PI * frequencies[5] * time))
+        width: calculateAnimatedValue(
+          ranges.secondWidth.min,
+          ranges.secondWidth.max,
+          frequencies[4],
+          time,
+          true
+        ),
+        height: calculateAnimatedValue(
+          ranges.secondHeight.min,
+          ranges.secondHeight.max,
+          frequencies[5],
+          time,
+          true
         ),
       },
-      circleRadius: Math.round(
-        ranges.circleRadius.min +
-          (ranges.circleRadius.max - ranges.circleRadius.min) *
-            (0.5 + 0.5 * Math.sin(2 * Math.PI * frequencies[6] * time))
+      circleRadius: calculateAnimatedValue(
+        ranges.circleRadius.min,
+        ranges.circleRadius.max,
+        frequencies[6],
+        time,
+        true
       ),
-      numScallops: Math.round(
-        ranges.numScallops.min +
-          (ranges.numScallops.max - ranges.numScallops.min) *
-            (0.5 + 0.5 * Math.sin(2 * Math.PI * frequencies[7] * time))
+      numScallops: calculateAnimatedValue(
+        ranges.numScallops.min,
+        ranges.numScallops.max,
+        frequencies[7],
+        time,
+        true
       ),
-      scallopDepth:
-        ranges.scallopDepth.min +
-        (ranges.scallopDepth.max - ranges.scallopDepth.min) *
-          (0.5 + 0.5 * Math.sin(2 * Math.PI * frequencies[8] * time)),
-      hexagonRadius: Math.round(
-        ranges.hexagonRadius.min +
-          (ranges.hexagonRadius.max - ranges.hexagonRadius.min) *
-            (0.5 + 0.5 * Math.sin(2 * Math.PI * frequencies[9] * time))
+      scallopDepth: calculateAnimatedValue(
+        ranges.scallopDepth.min,
+        ranges.scallopDepth.max,
+        frequencies[8],
+        time
+      ),
+      hexagonRadius: calculateAnimatedValue(
+        ranges.hexagonRadius.min,
+        ranges.hexagonRadius.max,
+        frequencies[9],
+        time,
+        true
       ),
     };
 
