@@ -45,7 +45,7 @@ export function initEditorView(): () => void {
     <div class="page-header">
       <h1>Daffodil editor</h1>
       <div class="description">I vibe-coded this to fine-tune an image which I would later turn into a lino print with some hand-carved imprecision.</div>
-      <a href="/daffodil/animated" class="view-link">View animated version</a>
+      <a href="/daffodil/#animated" class="view-link">View animated version</a>
     </div>
     <div class="container">
       <div class="controls">
