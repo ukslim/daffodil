@@ -101,6 +101,108 @@ button:focus-visible {
   padding: 0.5rem;
 }
 
+@media (max-width: 768px) {
+  body {
+    min-height: unset;
+    place-items: start;
+  }
+
+  #app {
+    padding: 0.15rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .container {
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0;
+    flex: 1;
+    width: 100%;
+  }
+
+  .controls {
+    width: 100%;
+    margin: 0;
+    padding: 0.25rem;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  .control-group {
+    margin-bottom: 0.15rem;
+    gap: 0.5rem;
+    height: 1.2rem;
+    padding: 0 0.25rem;
+  }
+
+  .control-group label {
+    min-width: 85px;
+    font-size: 0.6rem;
+    white-space: nowrap;
+  }
+
+  .control-group input[type="range"] {
+    height: 0.8rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .page-header {
+    margin: 0;
+    padding: 0 0.25rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.1em;
+    margin: 0;
+    line-height: 1;
+  }
+
+  .page-header .description {
+    font-size: 0.6rem;
+    padding: 0.15rem;
+    margin: 0.15rem 0;
+    max-width: none;
+    line-height: 1.2;
+  }
+
+  h3 {
+    margin: 0.15rem 0;
+    font-size: 0.65rem;
+    line-height: 1;
+    padding: 0 0.25rem;
+  }
+
+  .button-group {
+    margin-top: 0.15rem;
+    gap: 0.25rem;
+    padding: 0 0.25rem;
+  }
+
+  .save-button {
+    padding: 0.15rem;
+    font-size: 0.65rem;
+    height: 1.5rem;
+  }
+
+  #daffodilContainer {
+    flex: 1;
+    min-height: 0;
+    margin-top: 0.15rem;
+    width: 100%;
+  }
+
+  #daffodilContainer svg {
+    max-height: 45vh;
+    width: auto;
+  }
+}
+
 .page-header {
   text-align: left;
   margin-bottom: 1rem;
@@ -198,4 +300,20 @@ h3 {
 
 .save-button:active {
   transform: translateY(1px);
+}
+
+.view-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  background: #4caf50;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  transition: background-color 0.2s;
+}
+
+.view-link:hover {
+  background: #45a049;
 }
