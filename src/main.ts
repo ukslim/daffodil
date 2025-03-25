@@ -44,7 +44,7 @@ function setSliderValue(id: string, value: number) {
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div class="page-header">
     <h1>Daffodil editor</h1>
-    <div class="description">I made this to fine-tune an image which I would later turn into a lino print with some hand-carved imprecision.</div>
+    <div class="description">I vibe-coded this to fine-tune an image which I would later turn into a lino print with some hand-carved imprecision.</div>
   </div>
   <div class="container">
     <div class="controls">
